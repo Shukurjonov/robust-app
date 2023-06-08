@@ -43,19 +43,19 @@ const onConnect = (socket) => {
 	})
 
 	socket.on('create message', (receiverId) => {
-		console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[receiverId]);
+		// console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[receiverId]);
 		//var receiverId = model.messages(socket.id).sort((a, b) => a.id - b.id);
 		var userobj = {
 			senderId: socket.handshake.query.userId,
 			receiverId: receiverId
 		}
-		console.log('shu userga habar jo\'natishdi', userobj)
+		// console.log('shu userga habar jo\'natishdi', userobj)
 		socket.to(users[receiverId]).emit('new message', userobj)
 	});
 
 	socket.on('invite secret chat', (inviteChatDto) => {
-		console.log(inviteChatDto)
-		console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[inviteChatDto.receiverId]);
+		// console.log(inviteChatDto)
+		// console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[inviteChatDto.receiverId]);
 		var info = {
 			senderId: socket.handshake.query.userId,
 			receiverId: inviteChatDto.receiverId,
@@ -64,21 +64,21 @@ const onConnect = (socket) => {
 		}
 
 		if (!inviteChatDto.status) {
-			console.log('Maxfiy chat o\'chirildi')
+			// console.log('Maxfiy chat o\'chirildi')
 			socket.to(users[inviteChatDto.receiverId]).emit('disconnect secret chat', info)
 		} else {
 			if (users[inviteChatDto.receiverId] == undefined) {
-				console.log('User online emas!')
+				// console.log('User online emas!')
 				socket.to(users[inviteChatDto.senderId]).emit('wait secret chat partner', info)
 			} else {
-				console.log('shu userga maxfiy chat uchun so\'rov jo\'natishdi', info)
+				// console.log('shu userga maxfiy chat uchun so\'rov jo\'natishdi', info)
 				socket.to(users[inviteChatDto.receiverId]).emit('invite secret chat', info)
 			}
 		}
 	})
 
 	socket.on('confirm secret chat', (confirmChatDto) => {
-		console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[confirmChatDto.receiverId]);
+		// console.log('socket.id', socket.id, socket.handshake.query.userId, ' to ', users[confirmChatDto.receiverId]);
 		var info = {
 			senderId: socket.handshake.query.userId,
 			receiverId: confirmChatDto.receiverId,
@@ -87,12 +87,12 @@ const onConnect = (socket) => {
 		}
 
 		if (confirmChatDto.status) {
-			console.log('Maxfiy chat boshlandi')
+			// console.log('Maxfiy chat boshlandi')
 			if (users[confirmChatDto.receiverId] == undefined) {
-				console.log('User online emas!')
+				// console.log('User online emas!')
 				socket.to(users[confirmChatDto.senderId]).emit('wait secret chat partner', info)
 			} else {
-				console.log('maxfiy chat uchun so\'rov tasqidlandi', info)
+				// console.log('maxfiy chat uchun so\'rov tasqidlandi', info)
 				socket.to(users[confirmChatDto.receiverId]).emit('start secret chat', info)
 			}
 		}
