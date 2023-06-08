@@ -1,0 +1,20 @@
+[
+    {
+        "user_id": 1,
+        "username": "Bob",
+        "contact": "998999247585",
+        "password": "12345678aA@"
+    },
+    {
+        "user_id": 5,
+        "username": "Stive",
+        "contact": "998999217768",
+        "password": "12345678aA@"
+    },
+    {
+        "user_id": 11,
+        "username": "Alisson",
+        "contact": "998941254876",
+        "password": "12345678aA@"
+    }
+]
