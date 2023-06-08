@@ -105,12 +105,14 @@ async function generate(alice, bob) {
       'Ba': point_Ba
     }
   })
-  var key = await sha256Hash(point_Ab.toString())
+
+  var key = CryptoJS.MD5(point_Ab.toString());
   console.log(key)
   window.localStorage.setItem('encriptionKey', key)
   return key;
 }
 
+/*
 async function sha256Hash(input) {
   const encoder = new TextEncoder();
   const data = encoder.encode(input);
@@ -121,4 +123,4 @@ async function sha256Hash(input) {
   const hashedValue = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
 
   return hashedValue;
-}
+}*/
