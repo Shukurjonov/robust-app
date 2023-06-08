@@ -1,4 +1,4 @@
-let backendHost = 'http://localhost:4200'
+let backendHost = 'http://206.189.196.1:4200'
 let token = window.localStorage.getItem('token')
 token = token ? JSON.parse(token) : ''
 async function request (path, method, body) {

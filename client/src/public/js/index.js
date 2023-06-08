@@ -6,7 +6,7 @@ var modal = document.getElementById("modal");
 var openModalBtn = document.getElementById("openModalBtn");
 var closeBtn = document.getElementsByClassName("close-modal")[0];
 
-const socket = io('http://localhost:4200', {
+const socket = io('http://206.189.196.1:4200', {
     transports: [
         'websocket'
     ],
@@ -66,10 +66,14 @@ const usersRenderer = (users) => {
 
 const messagesRenderer = (messages) => {
     let string = ''
-    messages.forEach((message) => {
+    for (let index = 0; index < messages.length; index++) {
+      var message = messages[index]
       let message_text = message.message_text
       if (secret_chat_view && message.is_secret) {
         message_text = viewDecryption(message_text)
+      }
+      if (message_text == undefined || message_text == null || message_text == ""){
+        continue
       }
       string += `
           <div class="msg-wrapper ${message.sender_id == userId ? "msg-from" : ""}">
@@ -81,7 +85,7 @@ const messagesRenderer = (messages) => {
               </div>
           </div>
       `
-  })
+    }
     chatMain.innerHTML = string
 }
 
@@ -89,7 +93,11 @@ usersFetch()
 
 function viewDecryption(messageText) {
   var key = window.localStorage.getItem('encriptionKey')
-  return CryptoJS.AES.decrypt(messageText, key).toString(CryptoJS.enc.Utf8);
+  try {
+    return decryptedMessage = CryptoJS.AES.decrypt(messageText, key).toString(CryptoJS.enc.Utf8);
+  } catch (error) {
+    console.error("Error decrypting the message:", error);
+  }
 }
 
 form.onsubmit = async (e) => {
